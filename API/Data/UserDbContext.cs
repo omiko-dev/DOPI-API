@@ -13,20 +13,6 @@ namespace API.Data
             _conf = conf;
         }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    base.OnModelCreating(modelBuilder);
-
-        //    modelBuilder.Entity<User>()
-        //        .HasMany(u => u.Cart)
-        //        .WithOne()
-        //        .HasForeignKey(p => p.Product_Id);
-
-        //    modelBuilder.Entity<User>()
-        //        .HasMany(u => u.PurchaseProduct)
-        //        .WithOne()
-        //        .HasForeignKey(p => p.Product_Id);
-        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +21,7 @@ namespace API.Data
             modelBuilder.Entity<User>().HasMany(u => u.Cart).WithOne().HasForeignKey(p => p.Product_Id);
 
             modelBuilder.Entity<User>().HasMany(u => u.PurchaseProduct).WithOne().HasForeignKey(p => p.Product_Id);
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

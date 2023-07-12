@@ -1,7 +1,9 @@
 ﻿using API.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,19 +22,24 @@ namespace API.Models
 
         public int Price { get; set; }
 
-        public List<string> Ingredients { get; set; } = new List<string>();
+        [NotMapped]
+        public List<string> Ingredients { get; set; }
 
         public int CocoaPercentage { get; set; }
 
         public Flavor Flavor { get; set; }
 
-        public List<string> Allergens { get; set; } = new List<string>();
+        [NotMapped]
+        public List<string> Allergens { get; set; }
 
-        public List<string> ImageURL { get; set; } = new List<string>();
+        [NotMapped]
+        public List<string> ImageURL { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
         public DateTime UpdatedAt { get; set; }
 
     }
+
+
 }
