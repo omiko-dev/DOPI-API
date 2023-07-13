@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Models.dto;
 using API.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +36,9 @@ namespace API.Services
             if (product == null) 
                 return null;
 
+            product.CreatedAt = DateTime.Now;
+            product.UpdatedAt = DateTime.Now; 
+
             await _context.products.AddAsync(product);
             await _context.SaveChangesAsync();
 
@@ -57,7 +61,7 @@ namespace API.Services
         }
 
 
-        async public Task<Product> UpdateProduct(int id, Product product)
+        async public Task<Product> UpdateProduct(int id, UpdateProduct product)
         {
 
             var _product = await _context.products.FindAsync(id);
@@ -84,19 +88,19 @@ namespace API.Services
                 _product.Flavor = product.Flavor;
 
             if (product.Ingredients != null)
-                _product.Ingredients.AddRange(product.Ingredients);
+                _product.Ingredients.Add(product.Ingredients);
 
             if (product.Allergens != null)
-                _product.Allergens.AddRange(product.Allergens);
+                _product.Allergens.Add(product.Allergens);
 
             if (product.ImageURL != null)
-                _product.ImageURL.AddRange(product.ImageURL);
+                _product.ImageURL.Add(product.ImageURL);
 
             _product.UpdatedAt = DateTime.Now;
 
             await _context.SaveChangesAsync();
 
-            return product;
+            return _product;
 
 
         }

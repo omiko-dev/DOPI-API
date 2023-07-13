@@ -1,4 +1,6 @@
-﻿namespace API.Services
+﻿using API.Models.dto;
+
+namespace API.Services
 {
     public interface IProductRepository
     {
@@ -10,7 +12,7 @@
 
         public Task<Product> AddProduct(Product product);
 
-        public Task<Product> UpdateProduct(int id, Product product);
+        public Task<Product> UpdateProduct(int id, UpdateProduct product);
 
         public Task<Product> DeleteProduct(int id);
 

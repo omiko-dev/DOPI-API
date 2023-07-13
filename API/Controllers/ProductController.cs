@@ -1,4 +1,5 @@
-﻿using API.Services;
+﻿using API.Models.dto;
+using API.Services;
 using Azure.Core.Pipeline;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,9 +36,9 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        async public Task<ActionResult<Product>> UpdateProduct(int id, Product product)
+        async public Task<ActionResult<Product>> UpdateProduct(int id, UpdateProduct product)
         {
-            return await _context.UpdateProduct(id, product);
+            return Ok(await _context.UpdateProduct(id, product));
         }
 
         [HttpDelete("{id}")]
