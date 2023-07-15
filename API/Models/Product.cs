@@ -1,5 +1,6 @@
 ﻿using API.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,17 +24,39 @@ namespace API.Models
         public int Price { get; set; }
 
         [NotMapped]
-        public List<string> Ingredients { get; set; }
+        public List<string> Ingredients
+        {
+            get => JsonConvert.DeserializeObject<List<string>>(IngredientsJson)!;
+            set => IngredientsJson = JsonConvert.SerializeObject(value);
+        }
+
+        [Column("Ingredients")]
+        public string IngredientsJson { get; set; }
 
         public int CocoaPercentage { get; set; }
 
         public Flavor Flavor { get; set; }
 
         [NotMapped]
-        public List<string> Allergens { get; set; }
+        public List<string> Allergens
+        {
+            get => JsonConvert.DeserializeObject<List<string>>(AllergensJson)!;
+            set => AllergensJson = JsonConvert.SerializeObject(value);
+        }
+
+        [Column("Allergens")]
+        public string AllergensJson { get; set; }
 
         [NotMapped]
-        public List<string> ImageURL { get; set; }
+        public List<string> ImageURL
+        {
+            get => JsonConvert.DeserializeObject<List<string>>(ImageURlJson)!;
+            set => ImageURlJson = JsonConvert.SerializeObject(value);
+        }
+
+
+        [Column("ImageURL")]
+        public string ImageURlJson { get; set; }
 
         public DateTime? CreatedAt { get; set; } 
 

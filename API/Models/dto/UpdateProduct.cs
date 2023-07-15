@@ -14,15 +14,15 @@ namespace API.Models.dto
 
         public int Price { get; set; }
 
-        public string? Ingredients { get; set; } = string.Empty;
+        public string Ingredients { get; set; } = string.Empty;
 
         public int CocoaPercentage { get; set; }
 
         public Flavor Flavor { get; set; }
 
-        public string? Allergens { get; set; } = string.Empty;
+        public string Allergens { get; set; } = string.Empty;
 
-        public string? ImageURL { get; set; } = string.Empty;
+        public string ImageURL { get; set; } = string.Empty;
 
     }
 }

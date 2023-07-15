@@ -36,6 +36,7 @@ namespace API.Services
             if (product == null) 
                 return null;
 
+
             product.CreatedAt = DateTime.Now;
             product.UpdatedAt = DateTime.Now; 
 
@@ -65,6 +66,7 @@ namespace API.Services
         {
 
             var _product = await _context.products.FindAsync(id);
+            Console.WriteLine(product);
 
             if (_product == null)
                 return null;
@@ -87,14 +89,14 @@ namespace API.Services
             if (Enum.IsDefined(typeof(Flavor), product.Flavor))
                 _product.Flavor = product.Flavor;
 
-            if (product.Ingredients != null)
-                _product.Ingredients.Add(product.Ingredients);
+            //if (product.Ingredients != null)
+            //    _product.Ingredients.Ap (product.Ingredients);
 
-            if (product.Allergens != null)
-                _product.Allergens.Add(product.Allergens);
+            //if (product.Allergens != null)
+            //    _product.Allergens.Add(product.Allergens);
 
-            if (product.ImageURL != null)
-                _product.ImageURL.Add(product.ImageURL);
+            //if (product.ImageURL != null)
+            //    _product.ImageURL.Add(product.ImageURL);
 
             _product.UpdatedAt = DateTime.Now;
 

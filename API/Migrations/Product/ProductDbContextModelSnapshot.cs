@@ -30,6 +30,11 @@ namespace API.Migrations.Product
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Product_Id"));
 
+                    b.Property<string>("AllergensJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Allergens");
+
                     b.Property<string>("Brand")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -37,7 +42,7 @@ namespace API.Migrations.Product
                     b.Property<int>("CocoaPercentage")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -47,6 +52,16 @@ namespace API.Migrations.Product
                     b.Property<int>("Flavor")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImageURlJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ImageURL");
+
+                    b.Property<string>("IngredientsJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Ingredients");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
@@ -54,7 +69,7 @@ namespace API.Migrations.Product
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Product_Id");
