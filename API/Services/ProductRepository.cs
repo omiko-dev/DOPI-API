@@ -62,7 +62,7 @@ namespace API.Services
         }
 
 
-        async public Task<Product> UpdateProduct(int id, UpdateProduct product)
+        async public Task<Product> UpdateProduct(int id, Product product)
         {
 
             var _product = await _context.products.FindAsync(id);
@@ -89,14 +89,14 @@ namespace API.Services
             if (Enum.IsDefined(typeof(Flavor), product.Flavor))
                 _product.Flavor = product.Flavor;
 
-            //if (product.Ingredients != null)
-            //    _product.Ingredients.Ap (product.Ingredients);
+            if (product.Ingredients != null)
+                _product.Ingredients = product.Ingredients;
 
-            //if (product.Allergens != null)
-            //    _product.Allergens.Add(product.Allergens);
+            if (product.Allergens != null)
+                _product.Allergens = product.Allergens;
 
-            //if (product.ImageURL != null)
-            //    _product.ImageURL.Add(product.ImageURL);
+            if (product.ImageURL != null)
+                _product.ImageURL = product.ImageURL;
 
             _product.UpdatedAt = DateTime.Now;
 

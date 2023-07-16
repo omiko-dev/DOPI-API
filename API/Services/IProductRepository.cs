@@ -12,7 +12,7 @@ namespace API.Services
 
         public Task<Product> AddProduct(Product product);
 
-        public Task<Product> UpdateProduct(int id, UpdateProduct product);
+        public Task<Product> UpdateProduct(int id, Product product);
 
         public Task<Product> DeleteProduct(int id);
 

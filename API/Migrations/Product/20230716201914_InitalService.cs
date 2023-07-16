@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.Migrations.Product
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class InitalService : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,9 +20,12 @@ namespace API.Migrations.Product
                     ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    Ingredients = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CocoaPercentage = table.Column<int>(type: "int", nullable: false),
                     Flavor = table.Column<int>(type: "int", nullable: false),
+                    Allergens = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },

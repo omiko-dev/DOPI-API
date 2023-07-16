@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations.Product
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20230714212451_test")]
-    partial class test
+    [Migration("20230716201914_InitalService")]
+    partial class InitalService
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,10 @@ namespace API.Migrations.Product
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Product_Id"));
 
+                    b.Property<string>("AllergensJson")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Allergens");
+
                     b.Property<string>("Brand")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -50,8 +54,16 @@ namespace API.Migrations.Product
                     b.Property<int>("Flavor")
                         .HasColumnType("int");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<string>("ImageURlJson")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ImageURL");
+
+                    b.Property<string>("IngredientsJson")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Ingredients");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
 
                     b.Property<string>("ProductName")
                         .IsRequired()

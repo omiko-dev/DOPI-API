@@ -36,7 +36,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        async public Task<ActionResult<Product>> UpdateProduct(int id, UpdateProduct product)
+        async public Task<ActionResult<Product>> UpdateProduct(int id, Product product)
         {
             return Ok(await _context.UpdateProduct(id, product));
         }
