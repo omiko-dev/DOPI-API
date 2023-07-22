@@ -1,9 +1,9 @@
 ﻿using API.Data;
-using API.Models.dto;
+using API.Models.dto.ProductsDto;
 using API.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Services
+namespace API.Services.ProductsService
 {
     public class ProductRepository : IProductRepository
     {
@@ -13,7 +13,7 @@ namespace API.Services
         {
             _context = context;
         }
-        async public Task<Product> GetProductById(int id)
+        async public Task<Product?> GetProductById(int id)
         {
             var _product = await _context.products.FindAsync(id);
 
@@ -30,27 +30,39 @@ namespace API.Services
 
         }
 
-        async public Task<Product> AddProduct(Product product)
+        async public Task<Product?> AddProduct(ProductAddDto product)
         {
 
-            if (product == null) 
+            if (product == null)
                 return null;
 
+            var newProduct = new Product
+            {
+                Product_Id = product.Product_Id,
+                ProductName = product.ProductName,
+                Description = product.Description,
+                Brand = product.Brand,
+                Price = product.Price,
+                Ingredients = product.Ingredients,
+                CocoaPercentage = product.CocoaPercentage,
+                Flavor = product.Flavor,
+                Allergens = product.Allergens,
+                ImageURL = product.ImageURL,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
 
-            product.CreatedAt = DateTime.Now;
-            product.UpdatedAt = DateTime.Now; 
-
-            await _context.products.AddAsync(product);
+            await _context.products.AddAsync(newProduct);
             await _context.SaveChangesAsync();
 
-            return product;
+            return newProduct;
 
         }
 
-        async public Task<Product> DeleteProduct(int id)
+        async public Task<Product?> DeleteProduct(int id)
         {
-            
-            var _product =  await _context.products.FindAsync(id);
+
+            var _product = await _context.products.FindAsync(id);
 
             if (_product == null)
                 return null;
@@ -62,7 +74,7 @@ namespace API.Services
         }
 
 
-        async public Task<Product> UpdateProduct(int id, Product product)
+        async public Task<Product?> UpdateProduct(int id, Product product)
         {
 
             var _product = await _context.products.FindAsync(id);

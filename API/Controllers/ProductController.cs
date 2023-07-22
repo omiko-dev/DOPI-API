@@ -1,6 +1,7 @@
-﻿using API.Models.dto;
-using API.Services;
+﻿using API.Models.dto.ProductsDto;
+using API.Services.ProductsService;
 using Azure.Core.Pipeline;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        async public Task<ActionResult<Product>> AddProduct(Product product)
+        async public Task<ActionResult<Product>> AddProduct(ProductAddDto product)
         {
             return await _context.AddProduct(product);
         }
