@@ -4,6 +4,7 @@ using API.Models.dto.UsersDto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -90,6 +91,34 @@ namespace API.Controllers
 
         }
 
+        [HttpPost("Refresh-Token")]
+        public async Task<ActionResult<string>> RefreshToken()
+        {
+
+            var refreshToken = Request.Cookies["Refresh_Token"];
+            var user = _userDb.Users.FirstOrDefault(u => u.refreshToken == refreshToken);
+
+            if (user == null)
+            {
+                return BadRequest("Invalid Refresh Token");
+            }
+
+            await Console.Out.WriteLineAsync("work");
+
+            if (user?.TokenExpires < DateTime.Now)
+            {
+                return BadRequest("Token Expires");
+            }
+
+            var newToken = token(user);
+
+            var newRefreshToken = createRefreshToken();
+            SetRefreshToken(newRefreshToken);
+
+
+            return Ok(newToken);
+        }
+
 
         private RefreshToken createRefreshToken()
         {
@@ -97,9 +126,8 @@ namespace API.Controllers
             var refreshToken = new RefreshToken
             {
                 refreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                TokenExpires = DateTime.Now
+                TokenExpires = DateTime.Now.AddDays(7)
             };
-
             return refreshToken;
 
 
@@ -113,8 +141,7 @@ namespace API.Controllers
                 Expires = refreshToken.TokenExpires
             };
 
-            Response.Cookies.Append("Refresh-Token", refreshToken.refreshToken, cookieOption);
-
+            Response.Cookies.Append("Refresh_Token", refreshToken.refreshToken, cookieOption);
         }
 
         private string token(User user)
