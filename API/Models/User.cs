@@ -1,4 +1,5 @@
-﻿using API.Models.Enums;
+﻿using API.Models.dto.UsersDto;
+using API.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ namespace API.Models
 {
     public class User
     {
-
+        [Key]
         public int Id { get; set; }
 
         public string Email { get; set; } = string.Empty;
@@ -18,7 +19,7 @@ namespace API.Models
 
         public string PasswordHash { get; set; } = string.Empty;
 
-        public string role { get; set; } = "user"; // Default Value: User
+        public string role { get; set; } = "user"; // Default Value
 
         public string refreshToken { get; set; } = string.Empty;
 
@@ -26,10 +27,10 @@ namespace API.Models
 
         public DateTime TokenExpires { get; set; }
 
-        public List<Product>? Cart { get; set; }
 
-        public List<Product>? PurchaseProduct { get; set; }
-        
+        public  List<UserProductDto> Cart { get; set; }
+
+        public List<UserProductDto> PurchaseProduct { get; set; }
 
     }
 }

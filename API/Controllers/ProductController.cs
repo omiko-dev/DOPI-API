@@ -9,6 +9,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "admin")]
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _context;
@@ -25,6 +26,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         async public Task<IEnumerable<Product>> GetProducts()
         {
             return await _context.GetProducts();

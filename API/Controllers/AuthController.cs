@@ -149,7 +149,9 @@ namespace API.Controllers
 
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Name)
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8

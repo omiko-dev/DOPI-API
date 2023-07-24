@@ -6,7 +6,11 @@ namespace API.Services.UsersServices
     public interface IUserRepository
     {
 
-        //public Task<ActionResult<User>> RegisterUser(RegisterUserDto registerUserDto);
+        public Task<IEnumerable<Product>> GetMyCart(string Email);
+
+        public Task<IEnumerable<Product>> GetMyPurchaseProduct(string Email);
+
+        public Task<IEnumerable<Product>> AddCart(List<UserProductDto> product, string Email);
 
     }
 }
