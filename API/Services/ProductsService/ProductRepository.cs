@@ -38,7 +38,7 @@ namespace API.Services.ProductsService
 
             var newProduct = new Product
             {
-                Product_Id = product.Product_Id,
+                Id = product.Id,
                 ProductName = product.ProductName,
                 Description = product.Description,
                 Brand = product.Brand,

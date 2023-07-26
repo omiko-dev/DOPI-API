@@ -25,7 +25,7 @@ namespace API.Data
                 
                     new Product()
                     {
-                        Product_Id=1,
+                        Id=1,
                         ProductName="Dark Chocolate Bar",
                         Description="A rich and indulgent dark chocolate bar with 70% cooca content",
                         Brand="ChocoDeluxe",
@@ -54,7 +54,7 @@ namespace API.Data
 
                     new Product()
                     {
-                        Product_Id = 2,
+                        Id = 2,
                         ProductName = "Milk Chocolate Bar",
                         Description = "A creamy and smooth milk chocolate bar with a hint of vanilla",
                         Brand = "SweetDelights",

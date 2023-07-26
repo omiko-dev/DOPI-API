@@ -7,7 +7,7 @@ namespace API.Models.dto.ProductsDto
     public class ProductAddDto
     {
 
-        public int Product_Id { get; set; }
+        public int Id { get; set; }
 
         public string ProductName { get; set; } = string.Empty;
 

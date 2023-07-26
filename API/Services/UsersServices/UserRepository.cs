@@ -19,15 +19,30 @@ namespace API.Services.UsersServices
             _http = http;
         }
 
-        public async Task<IEnumerable<Product>> GetMyCart(string Email)
+        public async Task<IEnumerable<UserProduct>> AddCart(string Email, UserProduct product)
+        {
+            var user = await _userDb.Users.FirstOrDefaultAsync(x => x.Email == Email);
+
+            if(user != null)
+            {
+                //user.Cart = product;
+                await _userDb.UserProduct.AddAsync(product);
+
+                return _userDb.UserProduct.ToList();
+            }
+            return null;
+
+        }
+
+        public async Task<UserProduct> GetMyCart(string Email)
         {
 
-            var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == Email);
-            await Console.Out.WriteLineAsync(user.Email);
+            var user = await _userDb.Users.FirstOrDefaultAsync(x => x.Email == Email);
 
-            if (user is not null)
+            if (user != null)
             {
-                return user.Cart.ToList();
+                await Console.Out.WriteLineAsync(user.Name + "<----------------------");
+                return user.Cart;
             }
 
             return null;
@@ -35,35 +50,35 @@ namespace API.Services.UsersServices
         }
 
 
-        public async Task<IEnumerable<Product>> GetMyPurchaseProduct(string Email)
-        {
+        //public async Task<IEnumerable<Product>> GetMyPurchaseProduct(string Email)
+        //{
 
-            var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == Email);
+        //    var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == Email);
 
-            if (user is not null)
-            {
-                return user.PurchaseProduct.ToList();
-            }
+        //    if (user is not null)
+        //    {
+        //        return user.PurchaseProduct.ToList();
+        //    }
 
-            return null;
+        //    return null;
 
-        }
+        //}
 
-        public async Task<IEnumerable<Product>> AddCart(List<UserProductDto> product, string Email)
-        {
+        //public async Task<IEnumerable<Product>> AddCart(List<UserProductDto> product, string Email)
+        //{
 
-            var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == Email);
+        //    var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == Email);
 
-            if(user is not null)
-            {
-                user.Cart = product;
-                _userDb.SaveChanges();
-                return product;
-            }
+        //    if(user is not null)
+        //    {
+        //        user.Cart = product;
+        //        _userDb.SaveChanges();
+        //        return product;
+        //    }
 
-            return null;
+        //    return null;
 
-        }
+        //}
 
 
     }

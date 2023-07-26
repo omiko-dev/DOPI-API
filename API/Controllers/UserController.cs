@@ -7,7 +7,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -18,13 +18,22 @@ namespace API.Controllers
         }
 
 
-        [HttpGet][Authorize]
-        public async Task<ActionResult> GetMyInfo()
+        [HttpGet("GetCart")]
+        public async Task<ActionResult<UserProduct>> GetMyCart()
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
             var cart = await _userRepository.GetMyCart(email);
 
-            await Console.Out.WriteLineAsync(cart.ToString());
+            //await Console.Out.WriteLineAsync(cart.ToString());
+            return Ok(cart);
+        }
+
+        [HttpPost("SetCart")]
+        public async Task<ActionResult<UserProduct>> AddMyCart(UserProduct newProduct)
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var cart = await _userRepository.AddCart(email, newProduct);
+
             return Ok(cart);
         }
     }

@@ -13,7 +13,7 @@ namespace API.Models
     public class Product
     {
         [Key]
-        public int Product_Id { get; set; }
+        public int Id { get; set; }
 
         public string ProductName { get; set; } = string.Empty;
 

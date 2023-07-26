@@ -3,6 +3,7 @@ using API.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace API.Models
 {
     public class User
     {
-        [Key]
+
         public int Id { get; set; }
 
         public string Email { get; set; } = string.Empty;
@@ -26,11 +27,10 @@ namespace API.Models
         public DateTime tokenCreate { get; set; }
 
         public DateTime TokenExpires { get; set; }
+        public UserProduct? Cart { get; set; }
 
 
-        public  List<UserProductDto> Cart { get; set; }
 
-        public List<UserProductDto> PurchaseProduct { get; set; }
 
     }
 }
