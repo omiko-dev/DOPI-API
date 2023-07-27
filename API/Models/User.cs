@@ -27,7 +27,8 @@ namespace API.Models
         public DateTime tokenCreate { get; set; }
 
         public DateTime TokenExpires { get; set; }
-        public UserProduct? Cart { get; set; }
+        public List<Cart> Cart { get; set; }
+
 
 
 

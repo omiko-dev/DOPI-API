@@ -6,9 +6,9 @@ namespace API.Services.UsersServices
     public interface IUserRepository
     {
 
-        public Task<UserProduct> GetMyCart(string Email);
+        public Task<IEnumerable<Cart>> GetMyCart(string Email);
 
-        public Task<IEnumerable<UserProduct>> AddCart(string Email, UserProduct product);
+        public Task<Cart> AddCart(string Email,Cart newCart);
 
         //public Task<IEnumerable<Product>> GetMyPurchaseProduct(string Email);
 

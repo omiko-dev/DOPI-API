@@ -1,9 +1,12 @@
 ﻿using API.Data;
 using API.Models.dto.UsersDto;
+using API.Models.Enums;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace API.Services.UsersServices
 {
@@ -19,30 +22,37 @@ namespace API.Services.UsersServices
             _http = http;
         }
 
-        public async Task<IEnumerable<UserProduct>> AddCart(string Email, UserProduct product)
+        public async Task<Cart> AddCart(string Email, Cart newCart)
         {
             var user = await _userDb.Users.FirstOrDefaultAsync(x => x.Email == Email);
 
-            if(user != null)
+            if (user != null)
             {
-                //user.Cart = product;
-                await _userDb.UserProduct.AddAsync(product);
+                newCart.User = user;
+                newCart.User.Id = user.Id;
 
-                return _userDb.UserProduct.ToList();
+                await _userDb.Carts.AddAsync(newCart);
+                await _userDb.SaveChangesAsync();
+
+                newCart.User = null;
+                return newCart;
             }
             return null;
-
         }
 
-        public async Task<UserProduct> GetMyCart(string Email)
+
+        public async Task<IEnumerable<Cart>> GetMyCart(string Email)
         {
 
             var user = await _userDb.Users.FirstOrDefaultAsync(x => x.Email == Email);
 
             if (user != null)
             {
-                await Console.Out.WriteLineAsync(user.Name + "<----------------------");
-                return user.Cart;
+                IEnumerable<Cart> cart = await _userDb.Carts.Where(x => x.UserId == user.Id).ToArrayAsync();
+
+                return cart;
+
+
             }
 
             return null;

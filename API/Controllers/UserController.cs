@@ -19,7 +19,7 @@ namespace API.Controllers
 
 
         [HttpGet("GetCart")]
-        public async Task<ActionResult<UserProduct>> GetMyCart()
+        public async Task<ActionResult<Cart>> GetMyCart()
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
             var cart = await _userRepository.GetMyCart(email);
@@ -29,10 +29,10 @@ namespace API.Controllers
         }
 
         [HttpPost("SetCart")]
-        public async Task<ActionResult<UserProduct>> AddMyCart(UserProduct newProduct)
+        public async Task<ActionResult<Cart>> AddMyCart(Cart newCart)
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
-            var cart = await _userRepository.AddCart(email, newProduct);
+            var cart = await _userRepository.AddCart(email, newCart);
 
             return Ok(cart);
         }
