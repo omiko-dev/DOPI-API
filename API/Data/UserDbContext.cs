@@ -1,5 +1,5 @@
 ﻿using API.Models;
-using API.Models.dto.UsersDto;
+using API.dto.UsersDto;
 using API.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;

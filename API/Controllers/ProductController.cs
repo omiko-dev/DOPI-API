@@ -1,4 +1,4 @@
-﻿using API.Models.dto.ProductsDto;
+﻿using API.dto.ProductsDto;
 using API.Services.ProductsService;
 using Azure.Core.Pipeline;
 using Microsoft.AspNetCore.Authorization;

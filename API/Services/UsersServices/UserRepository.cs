@@ -1,6 +1,7 @@
 ﻿using API.Data;
-using API.Models.dto.UsersDto;
+using API.dto.UsersDto;
 using API.Models.Enums;
+using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,62 +14,78 @@ namespace API.Services.UsersServices
     public class UserRepository : IUserRepository
     {
         private readonly UserDbContext _userDb;
+        private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _http;
 
-        public UserRepository(UserDbContext userDb, IHttpContextAccessor http)
+        public UserRepository(UserDbContext userDb, IMapper mapper)
         {
 
             _userDb = userDb;
-            _http = http;
+            _mapper = mapper;
         }
 
-        public async Task<Cart> AddCart(string Email, Cart newCart)
+        public async Task<CartDto> AddCart(string Email, CartDto newCart)
         {
-            //var user = await _userDb.Users.FirstOrDefaultAsync(x => x.Email == Email);
+            
+            var user = _userDb.Users.Where(u => u.Email == Email).FirstOrDefault();
 
-            //if (user != null)
-            //{
-            //    newCart.User = user;
-            //    newCart.User.Id = user.Id;
+            if (user.Equals(null))
+                return null;
 
-            //    await _userDb.Carts.AddAsync(newCart);
-            //    await _userDb.SaveChangesAsync();
+            var cart = _mapper.Map<Cart>(newCart);
 
-            //    newCart.User = null;
-            //    return newCart;
+            var userCart = new UserCart
+            {
+                 Cart = cart,
+                 User = user,
+            };
 
-            //}
-            return null;
+            await _userDb.AddAsync(cart);
+            
+            await _userDb.AddAsync(userCart);
+
+            await _userDb.SaveChangesAsync();
+
+
+            return newCart;
+        }
+
+        public async Task<CartDto> DeleteCart(string Email, int cartId)
+        {
+            
+            var user = _userDb.Users.FirstOrDefault(u => u.Email == Email);
+
+            var carts = _userDb.userCarts.Where(u => u.UserId == user.Id).Select(u => u.Cart).ToList();
+
+            var cart = carts.FirstOrDefault(c => c.Id == cartId);
+
+            if (cart == null)
+                return null;
+
+            _userDb.Carts.Remove(cart);
+            await _userDb.SaveChangesAsync();
+
+            return _mapper.Map<CartDto>(cart);
+            
+
+        }
+
+        public async Task<UserDto> GetMe(string email)
+        {
+            return _mapper.Map<UserDto>(await _userDb.Users.Where(u => u.Email == email).FirstOrDefaultAsync());
         }
 
 
-        public async Task<IEnumerable<Cart>> GetMyCart(string Email)
+
+        public async Task<IEnumerable<CartDto>> GetMyCart(string Email)
         {
 
-            //var user = _userDb.Users.FirstOrDefault(x => x.Email == Email);
+            var user = _userDb.Users.FirstOrDefault(u => u.Email == Email);
 
+            if (user.Equals(null))
+                return null;
 
-            //if (user != null)
-            //{
-
-            //    var cart = await _userDb.Carts.Where(x => x.UserId == user.Id).ToListAsync();
-
-            //    var userCart = new List<Cart>();
-
-            //    if(cart != null)
-            //    {
-            //        foreach (var item in cart)
-            //        {
-            //            item.User = null;
-            //            userCart.Add(item);
-            //        }
-
-            //        return userCart.ToList();
-
-            //    }
-            //}
-
-            return null;
+            return _mapper.Map<List<CartDto>>(_userDb.userCarts.Where(u => u.UserId == user.Id).Select(u => u.Cart).ToList());
 
         }
 

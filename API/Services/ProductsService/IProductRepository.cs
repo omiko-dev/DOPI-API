@@ -1,4 +1,4 @@
-﻿using API.Models.dto.ProductsDto;
+﻿using API.dto.ProductsDto;
 
 namespace API.Services.ProductsService
 {

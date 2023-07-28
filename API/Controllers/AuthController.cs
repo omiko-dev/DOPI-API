@@ -1,6 +1,7 @@
 ﻿using API.Data;
+using API.dto.UsersDto;
 using API.Models;
-using API.Models.dto.UsersDto;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,16 +20,18 @@ namespace API.Controllers
     {
         private readonly UserDbContext _userDb;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
 
-        public AuthController(UserDbContext userDb, IConfiguration configuration)
+        public AuthController(UserDbContext userDb, IConfiguration configuration, IMapper mapper)
         {
             _userDb = userDb;
             _configuration = configuration;
+            _mapper = mapper;
         }
 
 
         [HttpPost("Register")]
-        public async Task<ActionResult<User>> Register(RegisterUserDto newUser)
+        public async Task<ActionResult<User>> Register(UserDto newUser)
         {
             if(newUser.Name == null)
             {
@@ -40,19 +43,14 @@ namespace API.Controllers
                 return BadRequest("Enter Another Email");
             };
 
-            var passwordHash = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
 
-            var user = new User
-            {
-                Name = newUser.Name,
-                Email = newUser.Email,
-                PasswordHash = passwordHash
-            };
+            var user = _mapper.Map<User>(newUser);
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(newUser.PasswordHash);
 
             await Console.Out.WriteLineAsync(user.PasswordHash);
 
 
-            await _userDb.Users.AddAsync(user);
+            await _userDb.AddAsync(user);
             await _userDb.SaveChangesAsync();
 
             return Ok(newUser);

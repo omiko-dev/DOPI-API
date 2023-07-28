@@ -1,4 +1,4 @@
-﻿namespace API.Models.dto.UsersDto
+﻿namespace API.dto.UsersDto
 {
     public class LoginDto
     {

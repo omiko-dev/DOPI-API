@@ -1,5 +1,5 @@
 ﻿using API.Data;
-using API.Models.dto.ProductsDto;
+using API.dto.ProductsDto;
 using API.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 

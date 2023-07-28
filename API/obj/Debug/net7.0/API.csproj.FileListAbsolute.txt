@@ -80,3 +80,5 @@ C:\Users\omiko\Desktop\shocoMoco\API\API\bin\Debug\net7.0\Microsoft.AspNetCore.A
 C:\Users\omiko\Desktop\shocoMoco\API\API\bin\Debug\net7.0\Scrutor.dll
 C:\Users\omiko\Desktop\shocoMoco\API\API\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.dll
 C:\Users\omiko\Desktop\shocoMoco\API\API\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
+C:\Users\omiko\Desktop\shocoMoco\API\API\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\omiko\Desktop\shocoMoco\API\API\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

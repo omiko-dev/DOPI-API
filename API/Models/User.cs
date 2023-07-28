@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Diagnostics.CodeAnalysis;
 
 namespace API.Models
 {
@@ -13,15 +14,19 @@ namespace API.Models
 
         public string PasswordHash { get; set; }
 
-        public string role { get; set; }
+        public string role { get; set; } = "user";
 
+        [MaybeNull]
         public string refreshToken { get; set; }
 
-        public DateTime tokenCreate { get; set; }
+        [MaybeNull]
+        public DateTime? tokenCreate { get; set; }
 
-        public DateTime tokenExpires { get; set; }
+        [MaybeNull]
+        public DateTime? tokenExpires { get; set; }
 
-        public ICollection<UserCart> UserCart { get; set; }
+        [MaybeNull]
+        public ICollection<UserCart>? UserCart { get; set; }
 
     }
 }

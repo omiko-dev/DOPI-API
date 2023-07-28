@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API.Models.dto.ProductsDto
+namespace API.dto.ProductsDto
 {
     public class ProductAddDto
     {
