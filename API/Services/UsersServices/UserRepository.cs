@@ -24,19 +24,20 @@ namespace API.Services.UsersServices
 
         public async Task<Cart> AddCart(string Email, Cart newCart)
         {
-            var user = await _userDb.Users.FirstOrDefaultAsync(x => x.Email == Email);
+            //var user = await _userDb.Users.FirstOrDefaultAsync(x => x.Email == Email);
 
-            if (user != null)
-            {
-                newCart.User = user;
-                newCart.User.Id = user.Id;
+            //if (user != null)
+            //{
+            //    newCart.User = user;
+            //    newCart.User.Id = user.Id;
 
-                await _userDb.Carts.AddAsync(newCart);
-                await _userDb.SaveChangesAsync();
+            //    await _userDb.Carts.AddAsync(newCart);
+            //    await _userDb.SaveChangesAsync();
 
-                newCart.User = null;
-                return newCart;
-            }
+            //    newCart.User = null;
+            //    return newCart;
+
+            //}
             return null;
         }
 
@@ -44,16 +45,28 @@ namespace API.Services.UsersServices
         public async Task<IEnumerable<Cart>> GetMyCart(string Email)
         {
 
-            var user = await _userDb.Users.FirstOrDefaultAsync(x => x.Email == Email);
-
-            if (user != null)
-            {
-                IEnumerable<Cart> cart = await _userDb.Carts.Where(x => x.UserId == user.Id).ToArrayAsync();
-
-                return cart;
+            //var user = _userDb.Users.FirstOrDefault(x => x.Email == Email);
 
 
-            }
+            //if (user != null)
+            //{
+
+            //    var cart = await _userDb.Carts.Where(x => x.UserId == user.Id).ToListAsync();
+
+            //    var userCart = new List<Cart>();
+
+            //    if(cart != null)
+            //    {
+            //        foreach (var item in cart)
+            //        {
+            //            item.User = null;
+            //            userCart.Add(item);
+            //        }
+
+            //        return userCart.ToList();
+
+            //    }
+            //}
 
             return null;
 

@@ -31,7 +31,7 @@ namespace API.Controllers
         [HttpPost("SetCart")]
         public async Task<ActionResult<Cart>> AddMyCart(Cart newCart)
         {
-            var email = User.FindFirstValue(ClaimTypes.Email);
+            var email = User.FindFirstValue(ClaimTypes.Email)!;
             var cart = await _userRepository.AddCart(email, newCart);
 
             return Ok(cart);

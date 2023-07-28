@@ -84,7 +84,7 @@ namespace API.Controllers
 
             user.refreshToken = refreshToken.refreshToken;
             user.tokenCreate = refreshToken.TokenCreate;
-            user.TokenExpires = refreshToken.TokenExpires;
+            user.tokenExpires = refreshToken.TokenExpires;
 
             await _userDb.SaveChangesAsync();
             return Ok(Token);
@@ -105,7 +105,7 @@ namespace API.Controllers
 
             await Console.Out.WriteLineAsync("work");
 
-            if (user?.TokenExpires < DateTime.Now)
+            if (user?.tokenExpires < DateTime.Now)
             {
                 return BadRequest("Token Expires");
             }

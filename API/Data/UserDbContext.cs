@@ -22,57 +22,63 @@ namespace API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Cart>()
-                .HasOne(c => c.User)
-                .WithMany(u => u.Cart)
-                .HasForeignKey(u => u.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<UserCart>()
+                .HasKey(uc => new { uc.UserId, uc.CartId });
 
+            modelBuilder.Entity<UserCart>()
+                .HasOne(u => u.User)
+                .WithMany(u => u.UserCart)
+                .HasForeignKey(u => u.UserId);
 
-            modelBuilder.Entity<User>().HasData(
-                new User
-                {
-                    Id = 4,
-                    Email = "omo",
-                    Name = "omiko",
-                    PasswordHash = "dada",
-                    role = "d",
-                    refreshToken = "hjkl",
-                    tokenCreate = DateTime.Now,
-                    TokenExpires = DateTime.Now.AddDays(1)
-                }
-            );
+            modelBuilder.Entity<UserCart>()
+                .HasOne(c => c.Cart)
+                .WithMany(c => c.UserCart)
+                .HasForeignKey(c => c.CartId);
 
-            modelBuilder.Entity<Cart>().HasData(
-                new Cart
-                {
-                    Id = 1,
-                    ProductName = "Dark Chocolate Bar",
-                    Description = "A rich and indulgent dark chocolate bar with 70% cocoa content",
-                    Brand = "ChocoDeluxe",
-                    Price = 3.99f,
-                    IngredientsJson = null,
-                    Ingredients = new List<string>
-                    {
-                        "Cocoa mass",
-                        "Sugar",
-                        "Cocoa butter",
-                        "Vanilla extract"
-                    },
-                    CocoaPercentage = 70,
-                    Flavor = Flavor.dark,
-                    AllergensJson = null,
-                    Allergens = null,
-                    ImageURlJson = null,
-                    ImageURL = new List<string>
-                    {
-            "https://images.unsplash.com/photo-1575377427642-087cf684f29d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-            "https://images.unsplash.com/photo-1589552950457-90dd56ef4413?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=715&q=80"
-                    },
-                    Buy = false,
-                    UserId = 4 // This is the foreign key value linking the Cart to the User
-                }
-            );
+            //modelBuilder.Entity<User>().HasData(
+            //    new User
+            //    {
+            //        Id = 4,
+            //        Email = "omo",
+            //        Name = "omiko",
+            //        PasswordHash = "dada",
+            //        role = "d",
+            //        refreshToken = "hjkl",
+            //        tokenCreate = DateTime.Now,
+            //        TokenExpires = DateTime.Now.AddDays(1)
+            //    }
+            //);
+
+            //modelBuilder.Entity<Cart>().HasData(
+            //    new Cart
+            //    {
+            //        Id = 1,
+            //        ProductName = "Dark Chocolate Bar",
+            //        Description = "A rich and indulgent dark chocolate bar with 70% cocoa content",
+            //        Brand = "ChocoDeluxe",
+            //        Price = 3.99f,
+            //        IngredientsJson = null,
+            //        Ingredients = new List<string>
+            //        {
+            //            "Cocoa mass",
+            //            "Sugar",
+            //            "Cocoa butter",
+            //            "Vanilla extract"
+            //        },
+            //        CocoaPercentage = 70,
+            //        Flavor = Flavor.dark,
+            //        AllergensJson = null,
+            //        Allergens = null,
+            //        ImageURlJson = null,
+            //        ImageURL = new List<string>
+            //        {
+            //"https://images.unsplash.com/photo-1575377427642-087cf684f29d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+            //"https://images.unsplash.com/photo-1589552950457-90dd56ef4413?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=715&q=80"
+            //        },
+            //        Buy = false,
+            //        UserId = 4 // This is the foreign key value linking the Cart to the User
+            //    }
+            //);
 
 
 
@@ -88,5 +94,7 @@ namespace API.Data
         public DbSet<User> Users { get; set; }
 
         public DbSet<Cart> Carts { get; set; }
+
+        public DbSet<UserCart> userCarts { get; set; }
     }
 }

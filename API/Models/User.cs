@@ -1,11 +1,4 @@
-﻿using API.Models.dto.UsersDto;
-using API.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace API.Models
 {
@@ -14,24 +7,21 @@ namespace API.Models
 
         public int Id { get; set; }
 
-        public string Email { get; set; } = string.Empty;
+        public string Name { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; }
 
-        public string PasswordHash { get; set; } = string.Empty;
+        public string PasswordHash { get; set; }
 
-        public string role { get; set; } = "user"; // Default Value
+        public string role { get; set; }
 
-        public string refreshToken { get; set; } = string.Empty;
+        public string refreshToken { get; set; }
 
         public DateTime tokenCreate { get; set; }
 
-        public DateTime TokenExpires { get; set; }
-        public List<Cart> Cart { get; set; }
+        public DateTime tokenExpires { get; set; }
 
-
-
-
+        public ICollection<UserCart> UserCart { get; set; }
 
     }
 }

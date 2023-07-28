@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations.User
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20230726231241_OneToOne")]
-    partial class OneToOne
+    [Migration("20230728183158_ManyToMany")]
+    partial class ManyToMany
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,11 +41,11 @@ namespace API.Migrations.User
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Buy")
-                        .HasColumnType("bit");
-
                     b.Property<int>("CocoaPercentage")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -69,31 +69,12 @@ namespace API.Migrations.User
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Carts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AllergensJson = "null",
-                            Brand = "ChocoDeluxe",
-                            Buy = false,
-                            CocoaPercentage = 70,
-                            Description = "A rich and indulgent dark chocolate bar with 70% cocoa content",
-                            Flavor = 0,
-                            ImageURlJson = "[\"https://images.unsplash.com/photo-1575377427642-087cf684f29d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80\",\"https://images.unsplash.com/photo-1589552950457-90dd56ef4413?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=715&q=80\"]",
-                            IngredientsJson = "[\"Cocoa mass\",\"Sugar\",\"Cocoa butter\",\"Vanilla extract\"]",
-                            Price = 3.99f,
-                            ProductName = "Dark Chocolate Bar",
-                            UserId = 4
-                        });
                 });
 
             modelBuilder.Entity("API.Models.User", b =>
@@ -116,9 +97,6 @@ namespace API.Migrations.User
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("TokenExpires")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("refreshToken")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -130,38 +108,56 @@ namespace API.Migrations.User
                     b.Property<DateTime>("tokenCreate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("tokenExpires")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 4,
-                            Email = "omo",
-                            Name = "omiko",
-                            PasswordHash = "dada",
-                            TokenExpires = new DateTime(2023, 7, 28, 3, 12, 41, 897, DateTimeKind.Local).AddTicks(4306),
-                            refreshToken = "hjkl",
-                            role = "d",
-                            tokenCreate = new DateTime(2023, 7, 27, 3, 12, 41, 897, DateTimeKind.Local).AddTicks(4296)
-                        });
                 });
 
-            modelBuilder.Entity("API.Models.Cart", b =>
+            modelBuilder.Entity("API.Models.UserCart", b =>
                 {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "CartId");
+
+                    b.HasIndex("CartId");
+
+                    b.ToTable("userCarts");
+                });
+
+            modelBuilder.Entity("API.Models.UserCart", b =>
+                {
+                    b.HasOne("API.Models.Cart", "Cart")
+                        .WithMany("UserCart")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("API.Models.User", "User")
-                        .WithMany("Cart")
+                        .WithMany("UserCart")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Cart");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("API.Models.Cart", b =>
+                {
+                    b.Navigation("UserCart");
                 });
 
             modelBuilder.Entity("API.Models.User", b =>
                 {
-                    b.Navigation("Cart");
+                    b.Navigation("UserCart");
                 });
 #pragma warning restore 612, 618
         }
