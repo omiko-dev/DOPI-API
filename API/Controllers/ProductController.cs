@@ -1,4 +1,5 @@
 ﻿using API.dto.ProductsDto;
+using API.Dto.ProductsDto;
 using API.Services.ProductsService;
 using Azure.Core.Pipeline;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +10,6 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "admin")]
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _context;
@@ -20,34 +20,44 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        async public Task<ActionResult<Product>> AddProduct(ProductAddDto product)
+        [ProducesResponseType(typeof(Product), 200)]
+        [ProducesResponseType(400)]
+        async public Task<ActionResult> AddProduct(ProductAddDto product)
         {
-            return await _context.AddProduct(product);
+            return Ok(await _context.AddProduct(product));
         }
 
         [HttpGet]
         [AllowAnonymous]
-        async public Task<IEnumerable<Product>> GetProducts()
+        [ProducesResponseType(typeof(IEnumerable<ProductGetDto>), 200)]
+        [ProducesResponseType(400)]
+        async public Task<ActionResult> GetProducts()
         {
-            return await _context.GetProducts();
+            return Ok(await _context.GetProducts());
         }
 
         [HttpGet("{id}")]
-        async public Task<ActionResult<Product>> GetProductById(int id)
+        [ProducesResponseType(typeof(ProductGetDto), 200)]
+        [ProducesResponseType(400)]
+        async public Task<ActionResult> GetProductById(int id)
         {
-            return await _context.GetProductById(id);
+            return Ok(await _context.GetProductById(id));
         }
 
         [HttpPut("{id}")]
-        async public Task<ActionResult<Product>> UpdateProduct(int id, Product product)
+        [ProducesResponseType(typeof(ProductUpdateDto), 200)]
+        [ProducesResponseType(400)]
+        async public Task<ActionResult> UpdateProduct(int id, ProductUpdateDto product)
         {
             return Ok(await _context.UpdateProduct(id, product));
         }
 
         [HttpDelete("{id}")]
-        async public Task<ActionResult<Product>> DeleteProduct(int id)
+        [ProducesResponseType(typeof(Product), 200)]
+        [ProducesResponseType(400)]
+        async public Task<ActionResult> DeleteProduct(int id)
         {
-            return await _context.DeleteProduct(id);
+            return Ok(await _context.DeleteProduct(id));
         }
 
     }

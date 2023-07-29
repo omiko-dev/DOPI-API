@@ -1,6 +1,8 @@
 ﻿using API.Data;
 using API.dto.ProductsDto;
+using API.Dto.ProductsDto;
 using API.Models.Enums;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Services.ProductsService
@@ -8,25 +10,27 @@ namespace API.Services.ProductsService
     public class ProductRepository : IProductRepository
     {
         private readonly ProductDbContext _context;
+        private readonly IMapper _mapper;
 
-        public ProductRepository(ProductDbContext context)
+        public ProductRepository(ProductDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-        async public Task<Product?> GetProductById(int id)
+        async public Task<ProductGetDto?> GetProductById(int id)
         {
             var _product = await _context.products.FindAsync(id);
 
             if (_product == null)
                 return null;
 
-            return _product;
+            return _mapper.Map<ProductGetDto>(_product);
         }
 
-        async public Task<IEnumerable<Product>> GetProducts()
+        async public Task<IEnumerable<ProductGetDto>> GetProducts()
         {
 
-            return await _context.products.ToListAsync();
+            return _mapper.Map<List<ProductGetDto>>(await _context.products.ToListAsync());
 
         }
 
@@ -36,21 +40,7 @@ namespace API.Services.ProductsService
             if (product == null)
                 return null;
 
-            var newProduct = new Product
-            {
-                Id = product.Id,
-                ProductName = product.ProductName,
-                Description = product.Description,
-                Brand = product.Brand,
-                Price = product.Price,
-                Ingredients = product.Ingredients,
-                CocoaPercentage = product.CocoaPercentage,
-                Flavor = product.Flavor,
-                Allergens = product.Allergens,
-                ImageURL = product.ImageURL,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
-            };
+            var newProduct = _mapper.Map<Product>(product);
 
             await _context.products.AddAsync(newProduct);
             await _context.SaveChangesAsync();
@@ -74,7 +64,7 @@ namespace API.Services.ProductsService
         }
 
 
-        async public Task<Product?> UpdateProduct(int id, Product product)
+        async public Task<ProductUpdateDto?> UpdateProduct(int id, ProductUpdateDto product)
         {
 
             var _product = await _context.products.FindAsync(id);
@@ -114,7 +104,7 @@ namespace API.Services.ProductsService
 
             await _context.SaveChangesAsync();
 
-            return _product;
+            return product;
 
 
         }

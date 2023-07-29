@@ -31,7 +31,9 @@ namespace API.Controllers
 
 
         [HttpPost("Register")]
-        public async Task<ActionResult<User>> Register(UserDto newUser)
+        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(UserDto), 200)]
+        public async Task<ActionResult> Register(UserDto newUser)
         {
             if(newUser.Name == null)
             {
@@ -59,7 +61,9 @@ namespace API.Controllers
 
 
         [HttpPost("Login")]
-        public async Task<ActionResult<string>> Login(LoginDto _user)
+        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(string), 200)]
+        public async Task<ActionResult> Login(LoginDto _user)
         {
 
             var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == _user.Email);
@@ -90,7 +94,9 @@ namespace API.Controllers
         }
 
         [HttpPost("Refresh-Token")]
-        public async Task<ActionResult<string>> RefreshToken()
+        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(string), 200)]
+        public async Task<ActionResult> RefreshToken()
         {
 
             var refreshToken = Request.Cookies["Refresh_Token"];
@@ -108,7 +114,7 @@ namespace API.Controllers
                 return BadRequest("Token Expires");
             }
 
-            var newToken = token(user);
+            var newToken = token(user!);
 
             var newRefreshToken = createRefreshToken();
             SetRefreshToken(newRefreshToken);

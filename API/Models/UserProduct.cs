@@ -5,9 +5,9 @@
 
         public int UserId { get; set; }
         public int CartId { get; set; }
-        public User User { get; set; }
+        public required User User { get; set; }
 
-        public Cart Cart { get; set; }
+        public required Cart Cart { get; set; }
 
 
     }

@@ -1,4 +1,5 @@
 ﻿using API.dto.ProductsDto;
+using API.Dto.ProductsDto;
 
 namespace API.Services.ProductsService
 {
@@ -6,13 +7,13 @@ namespace API.Services.ProductsService
     {
 
 
-        public Task<IEnumerable<Product>> GetProducts();
+        public Task<IEnumerable<ProductGetDto>> GetProducts();
 
-        public Task<Product?> GetProductById(int id);
+        public Task<ProductGetDto?> GetProductById(int id);
 
         public Task<Product?> AddProduct(ProductAddDto product);
 
-        public Task<Product?> UpdateProduct(int id, Product product);
+        public Task<ProductUpdateDto?> UpdateProduct(int id, ProductUpdateDto product);
 
         public Task<Product?> DeleteProduct(int id);
 

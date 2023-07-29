@@ -24,11 +24,11 @@ namespace API.Migrations.Product
 
             modelBuilder.Entity("API.Models.Product", b =>
                 {
-                    b.Property<int>("Product_Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Product_Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AllergensJson")
                         .HasColumnType("nvarchar(max)")
@@ -69,40 +69,40 @@ namespace API.Migrations.Product
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Product_Id");
+                    b.HasKey("Id");
 
                     b.ToTable("products");
 
                     b.HasData(
                         new
                         {
-                            Product_Id = 1,
+                            Id = 1,
                             AllergensJson = "null",
                             Brand = "ChocoDeluxe",
                             CocoaPercentage = 70,
-                            CreatedAt = new DateTime(2023, 7, 17, 0, 37, 39, 163, DateTimeKind.Local).AddTicks(9589),
+                            CreatedAt = new DateTime(2023, 7, 29, 19, 51, 56, 359, DateTimeKind.Local).AddTicks(279),
                             Description = "A rich and indulgent dark chocolate bar with 70% cooca content",
                             Flavor = 0,
                             ImageURlJson = "[\"https://images.unsplash.com/photo-1575377427642-087cf684f29d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80\",\"https://images.unsplash.com/photo-1589552950457-90dd56ef4413?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=715&q=80\"]",
                             IngredientsJson = "[\"Cocoa mass\",\"Sugar\",\"Cocoa butter\",\"Vanilla extract\"]",
                             Price = 3.99f,
                             ProductName = "Dark Chocolate Bar",
-                            UpdatedAt = new DateTime(2023, 7, 17, 0, 37, 39, 163, DateTimeKind.Local).AddTicks(9606)
+                            UpdatedAt = new DateTime(2023, 7, 29, 19, 51, 56, 359, DateTimeKind.Local).AddTicks(296)
                         },
                         new
                         {
-                            Product_Id = 2,
+                            Id = 2,
                             AllergensJson = "[\"Milk\"]",
                             Brand = "SweetDelights",
                             CocoaPercentage = 30,
-                            CreatedAt = new DateTime(2023, 7, 17, 0, 37, 39, 163, DateTimeKind.Local).AddTicks(9740),
+                            CreatedAt = new DateTime(2023, 7, 29, 19, 51, 56, 359, DateTimeKind.Local).AddTicks(348),
                             Description = "A creamy and smooth milk chocolate bar with a hint of vanilla",
                             Flavor = 1,
                             ImageURlJson = "[\"https://plus.unsplash.com/premium_photo-1677678736767-7641af9cb43c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80\",\"https://plus.unsplash.com/premium_photo-1677678736472-3f7498116754?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80\"]",
                             IngredientsJson = "[\"Sugar\",\"Cocoa butter\",\"Milk powder\",\"Cocoa mass\",\"Vanilla extract\"]",
                             Price = 2.99f,
                             ProductName = "Milk Chocolate Bar",
-                            UpdatedAt = new DateTime(2023, 7, 17, 0, 37, 39, 163, DateTimeKind.Local).AddTicks(9741)
+                            UpdatedAt = new DateTime(2023, 7, 29, 19, 51, 56, 359, DateTimeKind.Local).AddTicks(348)
                         });
                 });
 #pragma warning restore 612, 618

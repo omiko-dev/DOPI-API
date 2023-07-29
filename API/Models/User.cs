@@ -8,11 +8,11 @@ namespace API.Models
 
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
+        
+        public string Email { get; set; } = string.Empty;
 
-        public string Email { get; set; }
-
-        public string PasswordHash { get; set; }
+        public string PasswordHash { get; set; } = string.Empty;
 
         public string role { get; set; } = "user";
 
@@ -27,6 +27,8 @@ namespace API.Models
 
         [MaybeNull]
         public ICollection<UserCart>? UserCart { get; set; }
+
+        public ICollection<PurchaseProduct>? PurchaseProduct { get; set; }
 
     }
 }
