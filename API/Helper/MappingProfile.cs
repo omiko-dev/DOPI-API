@@ -28,6 +28,10 @@ namespace API.Helper
 
             CreateMap<ProductAddDto, Product>();
 
+            CreateMap<ProductAddDto, PurchaseProduct>();
+
+            CreateMap<PurchaseProduct, ProductGetDto>();
+
 
         }
 

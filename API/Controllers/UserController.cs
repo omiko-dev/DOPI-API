@@ -67,5 +67,41 @@ namespace API.Controllers
             return Ok(deleteCart);
         }
 
+        [HttpPost("AddPurchaseProduct")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(ProductAddDto), 200)]
+        public async Task<ActionResult> BuyProduct(ProductAddDto product)
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email)!;
+            var addPurchaseProduct = await _userRepository.BuyProduct(email, product);
+
+            return Ok(addPurchaseProduct);
+        }
+
+        [HttpGet("GetPurchaseProduct")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(IEnumerable<PurchaseProduct>), 200)]
+        public async Task<ActionResult> GetBuyProduct()
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email)!;
+            var addPurchaseProduct = await _userRepository.GetBuyProduct(email);
+
+            return Ok(addPurchaseProduct);
+        }
+
+        [HttpDelete("DeletePurchaseProduct")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(ProductGetDto), 200)]
+        public async Task<ActionResult> DeletePuchaseProduct([FromQuery] int productId)
+        {
+
+            var email = User.FindFirstValue(ClaimTypes.Email)!;
+            var deletePurchaseProduct = await _userRepository.DeletePurchaseProduct(email, productId);
+
+            return Ok(deletePurchaseProduct);
+
+        }
+
+
     }
 }

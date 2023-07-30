@@ -15,7 +15,12 @@ namespace API.Services.UsersServices
 
         public Task<UserDto> GetMe(string email);
 
-        //public Task<IEnumerable<Product>> GetMyPurchaseProduct(string Email);
+        public Task<ProductAddDto> BuyProduct(string email, ProductAddDto product);
+
+        public Task<IEnumerable<ProductGetDto>> GetBuyProduct(string email);
+
+        public abstract Task<ProductGetDto> DeletePurchaseProduct(string email, int productId);
+
 
     }
 }
