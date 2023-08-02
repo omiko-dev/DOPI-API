@@ -1,6 +1,5 @@
 ﻿using API.dto.ProductsDto;
 using API.dto.UsersDto;
-using Microsoft.AspNetCore.Mvc;
 
 namespace API.Services.UsersServices
 {

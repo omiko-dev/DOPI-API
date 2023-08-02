@@ -1,6 +1,4 @@
 ﻿using API.Models.Enums;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.dto.ProductsDto
 {

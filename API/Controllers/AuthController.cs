@@ -1,11 +1,8 @@
 ﻿using API.Data;
 using API.dto.UsersDto;
-using API.Models;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -35,7 +32,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(UserDto), 200)]
         public async Task<ActionResult> Register(UserDto newUser)
         {
-            if(newUser.Name == null)
+            if (newUser.Name == null)
             {
                 return BadRequest("Please Enter Name");
             }
@@ -68,12 +65,12 @@ namespace API.Controllers
 
             var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == _user.Email);
 
-            if(user == null)
+            if (user == null)
             {
                 return BadRequest("Email Is Incorrect");
             }
 
-            if(!BCrypt.Net.BCrypt.Verify(_user.Password, user.PasswordHash))
+            if (!BCrypt.Net.BCrypt.Verify(_user.Password, user.PasswordHash))
             {
                 return BadRequest("Invalid Password");
             }
@@ -104,6 +101,7 @@ namespace API.Controllers
 
             if (user == null)
             {
+                await Console.Out.WriteLineAsync(refreshToken);
                 return BadRequest("Invalid Refresh Token");
             }
 
@@ -118,6 +116,11 @@ namespace API.Controllers
 
             var newRefreshToken = createRefreshToken();
             SetRefreshToken(newRefreshToken);
+
+            user!.refreshToken = newRefreshToken.refreshToken;
+            user.tokenCreate = newRefreshToken.TokenCreate;
+            user.tokenExpires = newRefreshToken.TokenExpires;
+            await _userDb.SaveChangesAsync();
 
 
             return Ok(newToken);
@@ -138,7 +141,7 @@ namespace API.Controllers
         }
         private void SetRefreshToken(RefreshToken refreshToken)
         {
-
+            Console.WriteLine(refreshToken.refreshToken);
             var cookieOption = new CookieOptions
             {
                 HttpOnly = true,

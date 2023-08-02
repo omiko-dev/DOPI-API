@@ -1,12 +1,7 @@
 ﻿using API.Models.Enums;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace API.Models
 {
@@ -58,7 +53,7 @@ namespace API.Models
         [Column("ImageURL")]
         public string? ImageURlJson { get; set; }
 
-        public DateTime? CreatedAt { get; set; } 
+        public DateTime? CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
 

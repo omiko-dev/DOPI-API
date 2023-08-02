@@ -1,10 +1,4 @@
-﻿using API.Models;
-using API.dto.UsersDto;
-using API.Models.Enums;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Hosting;
-using System.Reflection.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {

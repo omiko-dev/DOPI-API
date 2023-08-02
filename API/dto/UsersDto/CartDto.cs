@@ -1,6 +1,5 @@
 ﻿using API.Models.Enums;
 using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.dto.UsersDto
 {
@@ -21,7 +20,7 @@ namespace API.dto.UsersDto
             get => JsonConvert.DeserializeObject<List<string>>(IngredientsJson!);
             set => IngredientsJson = JsonConvert.SerializeObject(value);
         }
-        
+
         public string? IngredientsJson { get; set; }
 
         public int CocoaPercentage { get; set; }

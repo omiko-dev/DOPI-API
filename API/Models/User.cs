@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace API.Models
 {
@@ -9,7 +8,7 @@ namespace API.Models
         public int Id { get; set; }
 
         public string Name { get; set; } = string.Empty;
-        
+
         public string Email { get; set; } = string.Empty;
 
         public string PasswordHash { get; set; } = string.Empty;

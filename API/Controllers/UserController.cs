@@ -26,7 +26,7 @@ namespace API.Controllers
         public async Task<ActionResult> GetMyCart()
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
-            var cart =  await _userRepository.GetMyCart(email!);
+            var cart = await _userRepository.GetMyCart(email!);
 
             //await Console.Out.WriteLineAsync(cart.ToString());
             return Ok(cart);

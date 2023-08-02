@@ -1,15 +1,14 @@
 ﻿using API.dto.ProductsDto;
 using API.Dto.ProductsDto;
 using API.Services.ProductsService;
-using Azure.Core.Pipeline;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "admin")]
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _context;

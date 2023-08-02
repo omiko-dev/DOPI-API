@@ -1,14 +1,8 @@
 ﻿using API.Data;
 using API.dto.ProductsDto;
 using API.dto.UsersDto;
-using API.Models.Enums;
 using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System.Security.Claims;
-using System.Text.Json;
 
 namespace API.Services.UsersServices
 {
@@ -26,7 +20,7 @@ namespace API.Services.UsersServices
 
         public async Task<ProductAddDto> AddCart(string Email, ProductAddDto newCart)
         {
-            
+
             var user = _userDb.Users.Where(u => u.Email == Email).FirstOrDefault();
 
             if (user!.Equals(null))
@@ -36,12 +30,12 @@ namespace API.Services.UsersServices
 
             var userCart = new UserCart
             {
-                 Cart = cart,
-                 User = user,
+                Cart = cart,
+                User = user,
             };
 
             await _userDb.AddAsync(cart);
-            
+
             await _userDb.AddAsync(userCart);
 
             await _userDb.SaveChangesAsync();
@@ -55,7 +49,7 @@ namespace API.Services.UsersServices
 
             var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == email);
 
-            if(user == null) 
+            if (user == null)
                 return null!;
 
             var buyProduct = _mapper.Map<PurchaseProduct>(product);
@@ -72,7 +66,7 @@ namespace API.Services.UsersServices
 
         public async Task<ProductGetDto> DeleteCart(string Email, int cartId)
         {
-            
+
             var user = _userDb.Users.FirstOrDefault(u => u.Email == Email);
 
             var carts = _userDb.userCarts.Where(u => u.UserId == user!.Id).Select(u => u.Cart).ToList();
@@ -86,21 +80,21 @@ namespace API.Services.UsersServices
             await _userDb.SaveChangesAsync();
 
             return _mapper.Map<ProductGetDto>(cart);
-            
+
 
         }
 
         public async Task<ProductGetDto> DeletePurchaseProduct(string email, int productId)
         {
-            
+
             var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == email);
 
-            if(user == null) 
+            if (user == null)
                 return null!;
 
             var purchaseProduct = await _userDb.purchaseProducts.Where(p => p.UserId == user.Id).FirstOrDefaultAsync(p => p.Id == productId);
 
-            if (purchaseProduct == null) 
+            if (purchaseProduct == null)
                 return null!;
 
             _userDb.purchaseProducts.Remove(purchaseProduct);
@@ -112,10 +106,10 @@ namespace API.Services.UsersServices
 
         public async Task<IEnumerable<ProductGetDto>> GetBuyProduct(string email)
         {
-            
+
             var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == email);
 
-            if(user == null) 
+            if (user == null)
                 return null!;
 
             var purchaseProduct = _mapper.Map<List<ProductGetDto>>(await _userDb.purchaseProducts.Where(p => p.UserId == user!.Id).ToListAsync());
