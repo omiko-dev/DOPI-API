@@ -78,7 +78,6 @@ namespace API.Controllers
             var Token = token(user);
 
             var refreshToken = createRefreshToken();
-
             SetRefreshToken(refreshToken);
 
             user.refreshToken = refreshToken.refreshToken;
@@ -93,11 +92,13 @@ namespace API.Controllers
         [HttpPost("Refresh-Token")]
         [ProducesResponseType(400)]
         [ProducesResponseType(typeof(string), 200)]
-        public async Task<ActionResult> RefreshToken()
+        public async Task<ActionResult> RefreshToken([FromQuery] string refreshToken, [FromBody] bool allow)
         {
 
-            var refreshToken = Request.Cookies["Refresh_Token"];
-            var user = _userDb.Users.FirstOrDefault(u => u.refreshToken == refreshToken);
+            //var refreshToken = Request.Cookies["Refresh_Token"];
+            refreshToken.Replace(' ', '+');
+            await Console.Out.WriteLineAsync(refreshToken + "99-00---++++++");
+            var user = await _userDb.Users.FirstOrDefaultAsync(u => u.refreshToken == refreshToken);
 
             if (user == null)
             {
@@ -112,18 +113,19 @@ namespace API.Controllers
                 return BadRequest("Token Expires");
             }
 
-            var newToken = token(user!);
+            var Token = token(user);
 
-            var newRefreshToken = createRefreshToken();
-            SetRefreshToken(newRefreshToken);
+            var _refreshToken = createRefreshToken();
+            SetRefreshToken(_refreshToken);
 
-            user!.refreshToken = newRefreshToken.refreshToken;
-            user.tokenCreate = newRefreshToken.TokenCreate;
-            user.tokenExpires = newRefreshToken.TokenExpires;
+            user.refreshToken = _refreshToken.refreshToken;
+            user.tokenCreate = _refreshToken.TokenCreate;
+            user.tokenExpires = _refreshToken.TokenExpires;
+
             await _userDb.SaveChangesAsync();
 
 
-            return Ok(newToken);
+            return Ok(Token);
         }
 
 
@@ -141,14 +143,16 @@ namespace API.Controllers
         }
         private void SetRefreshToken(RefreshToken refreshToken)
         {
-            Console.WriteLine(refreshToken.refreshToken);
             var cookieOption = new CookieOptions
             {
-                HttpOnly = true,
-                Expires = refreshToken.TokenExpires
-            };
-
+                HttpOnly = false,
+                Expires = refreshToken.TokenExpires,
+                Secure = true,
+                SameSite = SameSiteMode.None
+   
+            };            
             Response.Cookies.Append("Refresh_Token", refreshToken.refreshToken, cookieOption);
+
         }
 
         private string token(User user)

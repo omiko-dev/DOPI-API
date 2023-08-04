@@ -3,6 +3,7 @@ using API.Data;
 using API.Services.ProductsService;
 using API.Services.UsersServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -11,6 +12,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+const string AllowAllHeadersPolicy = "AllowAllPolicy";
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -23,16 +25,16 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
+    options.AddPolicy(AllowAllHeadersPolicy,
         builder =>
         {
-
-            //you can configure your custom policy
-            builder.AllowAnyOrigin()
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
+            builder.WithOrigins("http://localhost:4200")
+                   .AllowCredentials()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
         });
 });
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -77,11 +79,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCookiePolicy();
 app.UseAuthorization();
 
 
-app.UseCors();
+app.UseCors(AllowAllHeadersPolicy);
 
 app.MapControllers();
 
