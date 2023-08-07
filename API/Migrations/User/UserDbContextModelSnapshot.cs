@@ -69,7 +69,12 @@ namespace API.Migrations.User
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Userid")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Userid");
 
                     b.ToTable("Carts");
                 });
@@ -169,19 +174,13 @@ namespace API.Migrations.User
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("API.Models.UserCart", b =>
+            modelBuilder.Entity("API.Models.Cart", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "CartId");
-
-                    b.HasIndex("CartId");
-
-                    b.ToTable("userCarts");
+                    b.HasOne("API.Models.User", null)
+                        .WithMany("Cart")
+                        .HasForeignKey("Userid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.Models.PurchaseProduct", b =>
@@ -193,35 +192,11 @@ namespace API.Migrations.User
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("API.Models.UserCart", b =>
-                {
-                    b.HasOne("API.Models.Cart", "Cart")
-                        .WithMany("UserCart")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Models.User", "User")
-                        .WithMany("UserCart")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("API.Models.Cart", b =>
-                {
-                    b.Navigation("UserCart");
-                });
-
             modelBuilder.Entity("API.Models.User", b =>
                 {
-                    b.Navigation("PurchaseProduct");
+                    b.Navigation("Cart");
 
-                    b.Navigation("UserCart");
+                    b.Navigation("PurchaseProduct");
                 });
 #pragma warning restore 612, 618
         }

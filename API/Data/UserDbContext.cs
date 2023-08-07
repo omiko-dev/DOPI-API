@@ -16,18 +16,24 @@ namespace API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<UserCart>()
-                .HasKey(uc => new { uc.UserId, uc.CartId });
+            //modelBuilder.Entity<UserCart>()
+            //    .HasKey(uc => new { uc.UserId, uc.CartId });
 
-            modelBuilder.Entity<UserCart>()
-                .HasOne(u => u.User)
-                .WithMany(u => u.UserCart)
-                .HasForeignKey(u => u.UserId);
+            modelBuilder.Entity<User>().Navigation(u => u.Cart).AutoInclude();
+            modelBuilder.Entity<User>().Navigation(u => u.PurchaseProduct).AutoInclude();
 
-            modelBuilder.Entity<UserCart>()
-                .HasOne(c => c.Cart)
-                .WithMany(c => c.UserCart)
-                .HasForeignKey(c => c.CartId);
+            //modelBuilder.Entity<UserCart>()
+            //    .HasOne(u => u.User)
+            //    .WithMany(u => u.UserCart)
+            //    .HasForeignKey(u => u.UserId);
+
+            //modelBuilder.Entity<UserCart>()
+            //    .HasOne(c => c.Cart)
+            //    .WithMany(c => c.UserCart)
+            //    .HasForeignKey(c => c.CartId);
+
+            //modelBuilder.Entity<User>().HasMany(u => u.PurchaseProduct).WithOne().HasForeignKey(u => u.UserId);
+            //modelBuilder.Entity<User>().HasMany(u => u.Cart).WithOne().HasForeignKey(u => u.Userid);
 
             //modelBuilder.Entity<User>().HasData(
             //    new User
@@ -88,8 +94,6 @@ namespace API.Data
         public DbSet<User> Users { get; set; }
 
         public DbSet<Cart> Carts { get; set; }
-
-        public DbSet<UserCart> userCarts { get; set; }
 
         public DbSet<PurchaseProduct> purchaseProducts { get; set; }
     }

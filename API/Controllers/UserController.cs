@@ -28,7 +28,6 @@ namespace API.Controllers
             var email = User.FindFirstValue(ClaimTypes.Email);
             var cart = await _userRepository.GetMyCart(email!);
 
-            //await Console.Out.WriteLineAsync(cart.ToString());
             return Ok(cart);
         }
 
@@ -64,6 +63,10 @@ namespace API.Controllers
             var email = User.FindFirstValue(ClaimTypes.Email)!;
             var deleteCart = await _userRepository.DeleteCart(email, cartId);
 
+            if(deleteCart == null)
+                return BadRequest("Cart Not Found");
+            
+
             return Ok(deleteCart);
         }
 
@@ -97,6 +100,9 @@ namespace API.Controllers
 
             var email = User.FindFirstValue(ClaimTypes.Email)!;
             var deletePurchaseProduct = await _userRepository.DeletePurchaseProduct(email, productId);
+
+            if (deletePurchaseProduct == null)
+                return BadRequest("Product Not Found");
 
             return Ok(deletePurchaseProduct);
 

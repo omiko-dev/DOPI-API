@@ -1,5 +1,6 @@
 ﻿using API.dto.ProductsDto;
 using API.dto.UsersDto;
+using API.Dto.UsersDto;
 using AutoMapper;
 
 namespace API.Helper
@@ -13,6 +14,8 @@ namespace API.Helper
             CreateMap<ProductAddDto, Cart>();
 
             CreateMap<UserDto, User>();
+
+            CreateMap<RegisterDto, User>();
 
             CreateMap<User, UserDto>();
 

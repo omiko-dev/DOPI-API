@@ -25,7 +25,7 @@ namespace API.Models
         public DateTime? tokenExpires { get; set; }
 
         [MaybeNull]
-        public ICollection<UserCart>? UserCart { get; set; }
+        public ICollection<Cart>? Cart { get; set; }
 
         public ICollection<PurchaseProduct>? PurchaseProduct { get; set; }
 

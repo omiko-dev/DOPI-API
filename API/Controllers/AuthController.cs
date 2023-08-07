@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using API.dto.UsersDto;
+using API.Dto.UsersDto;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,7 @@ namespace API.Controllers
         [HttpPost("Register")]
         [ProducesResponseType(400)]
         [ProducesResponseType(typeof(UserDto), 200)]
-        public async Task<ActionResult> Register(UserDto newUser)
+        public async Task<ActionResult> Register(RegisterDto newUser)
         {
             if (newUser.Name == null)
             {
@@ -94,15 +95,10 @@ namespace API.Controllers
         [ProducesResponseType(typeof(string), 200)]
         public async Task<ActionResult> RefreshToken([FromQuery] string refreshToken, [FromBody] bool allow)
         {
-
-            //var refreshToken = Request.Cookies["Refresh_Token"];
-            refreshToken.Replace(' ', '+');
-            await Console.Out.WriteLineAsync(refreshToken + "99-00---++++++");
             var user = await _userDb.Users.FirstOrDefaultAsync(u => u.refreshToken == refreshToken);
 
             if (user == null)
             {
-                await Console.Out.WriteLineAsync(refreshToken);
                 return BadRequest("Invalid Refresh Token");
             }
 
