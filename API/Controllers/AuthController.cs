@@ -109,12 +109,12 @@ namespace API.Controllers
                 return BadRequest("Token Expires");
             }
 
-            var Token = token(user);
+            var Token = token(user!);
 
             var _refreshToken = createRefreshToken();
             SetRefreshToken(_refreshToken);
 
-            user.refreshToken = _refreshToken.refreshToken;
+            user!.refreshToken = _refreshToken.refreshToken;
             user.tokenCreate = _refreshToken.TokenCreate;
             user.tokenExpires = _refreshToken.TokenExpires;
 

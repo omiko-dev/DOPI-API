@@ -156,6 +156,10 @@ namespace API.Migrations.User
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProfileImg")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("refreshToken")
                         .HasColumnType("nvarchar(max)");
 

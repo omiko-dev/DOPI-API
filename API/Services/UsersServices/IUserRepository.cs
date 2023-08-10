@@ -20,6 +20,8 @@ namespace API.Services.UsersServices
 
         public abstract Task<ProductGetDto> DeletePurchaseProduct(string email, int productId);
 
+        public Task<UserDto> UpdateProfileImage(string email, string profileImage);
+
 
     }
 }

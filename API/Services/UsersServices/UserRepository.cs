@@ -21,7 +21,7 @@ namespace API.Services.UsersServices
         public async Task<ProductAddDto> AddCart(string Email, ProductAddDto newCart)
         {
 
-            var user = _userDb.Users.Where(u => u.Email == Email).FirstOrDefault();
+            var user = await getUser(Email);
 
             if (user!.Equals(null))
                 return null!;
@@ -41,7 +41,7 @@ namespace API.Services.UsersServices
         public async Task<ProductAddDto> BuyProduct(string email, ProductAddDto product)
         {
 
-            var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await getUser(email);
 
             if (user == null)
                 return null!;
@@ -61,7 +61,7 @@ namespace API.Services.UsersServices
         public async Task<ProductGetDto> DeleteCart(string Email, int cartId)
         {
 
-            var user = _userDb.Users.FirstOrDefault(u => u.Email == Email);
+            var user = await getUser(Email);
 
             var cart = await _userDb.Carts.FirstOrDefaultAsync(c => c.Id == cartId);
 
@@ -79,7 +79,7 @@ namespace API.Services.UsersServices
         public async Task<ProductGetDto> DeletePurchaseProduct(string email, int productId)
         {
 
-            var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await getUser(email);
 
             if (user == null)
                 return null!;
@@ -99,7 +99,7 @@ namespace API.Services.UsersServices
         public async Task<IEnumerable<ProductGetDto>> GetBuyProduct(string email)
         {
 
-            var user = await _userDb.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await getUser(email);
 
             if (user == null)
                 return null!;
@@ -120,7 +120,7 @@ namespace API.Services.UsersServices
         public async Task<IEnumerable<ProductGetDto>> GetMyCart(string Email)
         {
 
-            var user = _userDb.Users.FirstOrDefault(u => u.Email == Email);
+            var user = await getUser(Email);
 
             if (user!.Equals(null))
                 return null!;
@@ -128,6 +128,25 @@ namespace API.Services.UsersServices
             return _mapper.Map<List<ProductGetDto>>(await _userDb.Carts.Where(c => c.Userid == user.Id).ToListAsync());
 
         }
+
+        public async Task<UserDto> UpdateProfileImage(string email, string profileImage)
+        {
+
+            var user = await getUser(email);
+
+            if(user == null) 
+                return null!;
+
+            user.ProfileImg = profileImage;
+            await _userDb.SaveChangesAsync();
+
+            return _mapper.Map<UserDto>(user);
+
+
+        }
+
+
+        private async Task<User> getUser(string Email) => await _userDb.Users.FirstOrDefaultAsync(u => u.Email == Email);
 
     }
 }

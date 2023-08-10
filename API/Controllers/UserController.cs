@@ -44,7 +44,7 @@ namespace API.Controllers
 
         [HttpGet("Profile")]
         [ProducesResponseType(400)]
-        [ProducesResponseType(typeof(User), 200)]
+        [ProducesResponseType(typeof(UserDto), 200)]
         public async Task<ActionResult> GetProfile()
         {
 
@@ -108,6 +108,21 @@ namespace API.Controllers
 
         }
 
+
+        [HttpPut("UpdateProfileImage")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(UserDto), 200)]
+        public async Task<ActionResult> UpdateProfileImage(string imageUrl)
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email)!;
+            var updateProfileImg = await _userRepository.UpdateProfileImage(email, imageUrl);
+
+            if (updateProfileImg == null)
+                return BadRequest("Error");
+
+            return Ok(updateProfileImg);
+
+        }
 
     }
 }

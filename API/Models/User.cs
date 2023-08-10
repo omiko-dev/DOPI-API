@@ -13,6 +13,8 @@ namespace API.Models
 
         public string PasswordHash { get; set; } = string.Empty;
 
+        public string ProfileImg { get; set; } = string.Empty;
+
         public string role { get; set; } = "user";
 
         [MaybeNull]
