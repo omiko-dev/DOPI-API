@@ -26,8 +26,19 @@ namespace API.Services.UsersServices
             if (user!.Equals(null))
                 return null!;
 
-            var cart = _mapper.Map<Cart>(newCart);
 
+
+            var CountChecker = user.Cart!.FirstOrDefault(c => c.Description == newCart.Description && c.ProductName == newCart.ProductName );
+
+            if(CountChecker != null)
+            {
+                user.Cart!.FirstOrDefault(CountChecker).Count++;
+                await _userDb.SaveChangesAsync();
+
+                return _mapper.Map<ProductAddDto>(CountChecker);
+            }
+
+            var cart = _mapper.Map<Cart>(newCart);
             cart.Userid = user.Id;
 
             await _userDb.Carts.AddAsync(cart);
@@ -67,6 +78,15 @@ namespace API.Services.UsersServices
 
             if (cart == null)
                 return null!;
+
+
+            if(cart.Count > 1)
+            {
+                cart.Count--;
+                await _userDb.SaveChangesAsync();
+
+                return _mapper.Map<ProductGetDto>(cart);
+            }
 
             _userDb.Carts.Remove(cart);
             await _userDb.SaveChangesAsync();

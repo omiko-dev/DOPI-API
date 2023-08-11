@@ -21,6 +21,8 @@ namespace API.dto.ProductsDto
 
         public Flavor Flavor { get; set; }
 
+        public int Count { get; set; } = 1;
+
         public List<string>? Allergens { get; set; }
 
         public List<string>? ImageURL { get; set; }

@@ -5,8 +5,7 @@ namespace API.Models
     public class Cart : Product
     {
 
-        //[MaybeNull]
-        //public ICollection<UserCart> UserCart { get; set; }
+        public int Count { get; set; } = 1;
 
         public int Userid { get; set; }
 

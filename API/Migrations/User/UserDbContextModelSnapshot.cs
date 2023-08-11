@@ -41,6 +41,9 @@ namespace API.Migrations.User
                     b.Property<int>("CocoaPercentage")
                         .HasColumnType("int");
 
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -96,6 +99,9 @@ namespace API.Migrations.User
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CocoaPercentage")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Count")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")

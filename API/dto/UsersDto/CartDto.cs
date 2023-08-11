@@ -46,6 +46,8 @@ namespace API.dto.UsersDto
 
         public string? ImageURlJson { get; set; }
 
+        public int Count { get; set; } = 1;
+
         public bool Buy { get; set; } = false;
     }
 }
