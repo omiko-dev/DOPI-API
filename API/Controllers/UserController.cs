@@ -33,11 +33,12 @@ namespace API.Controllers
 
         [HttpPost("SetCart")]
         [ProducesResponseType(400)]
-        [ProducesResponseType(typeof(CartDto), 200)]
+        [ProducesResponseType(typeof(ProductAddDto), 200)]
         public async Task<ActionResult> AddMyCart(ProductAddDto newCart)
         {
-            var email = User.FindFirstValue(ClaimTypes.Email)!;
-            var cart = await _userRepository.AddCart(email, newCart);
+            await Console.Out.WriteLineAsync(newCart.Description + "<--------------------------------------");
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var cart = await _userRepository.AddCart(email!, newCart);
 
             return Ok(cart);
         }

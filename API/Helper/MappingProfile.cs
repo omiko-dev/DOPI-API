@@ -35,6 +35,8 @@ namespace API.Helper
 
             CreateMap<ProductAddDto, PurchaseProduct>();
 
+            CreateMap<PurchaseProduct, ProductAddDto>();
+
             CreateMap<PurchaseProduct, ProductGetDto>();
 
 

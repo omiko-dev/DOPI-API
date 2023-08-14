@@ -36,11 +36,18 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(ProductGetDto), 200)]
         [ProducesResponseType(400)]
         async public Task<ActionResult> GetProductById(int id)
         {
-            return Ok(await _context.GetProductById(id));
+
+            var productById = await _context.GetProductById(id);
+
+            if (productById == null)
+                return BadRequest("Error");
+
+            return Ok(productById);
         }
 
         [HttpPut("{id}")]

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xtsapyb9XULi+FWjEbjjYMQfsn5+8eNiNc1d67LPOkBG8xFtwf0mnBzqjRCICuIvJbQYdeSCOgEi+tJtAircwQ==",
+  "dgSpecHash": "VVaoWVh5BR0WNdSkK3d/m5uyBc37Gz5hL8qeHnuqkgnn3bqnR2GHWwrJFm63QflppFrdW1d2dmbS8tZRwWGJYQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\omiko\\Desktop\\shocoMoco\\API\\api\\API.csproj",
+  "projectFilePath": "C:\\Users\\omiko\\Desktop\\shocoMoco\\API\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\omiko\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\omiko\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.dto.ProductsDto;
 using API.dto.UsersDto;
+using API.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,9 +29,9 @@ namespace API.Services.UsersServices
 
 
 
-            var CountChecker = user.Cart!.FirstOrDefault(c => c.Description == newCart.Description && c.ProductName == newCart.ProductName );
+            var CountChecker = user.Cart!.FirstOrDefault(c => c.Description == newCart.Description && c.ProductName == newCart.ProductName);
 
-            if(CountChecker != null)
+            if (CountChecker != null)
             {
                 user.Cart!.FirstOrDefault(CountChecker).Count++;
                 await _userDb.SaveChangesAsync();
@@ -40,9 +41,8 @@ namespace API.Services.UsersServices
 
             var cart = _mapper.Map<Cart>(newCart);
             cart.Userid = user.Id;
-
+            cart.Id = 0;
             await _userDb.Carts.AddAsync(cart);
-
             await _userDb.SaveChangesAsync();
 
 
@@ -57,9 +57,23 @@ namespace API.Services.UsersServices
             if (user == null)
                 return null!;
 
+
+
+            var CountChecker = user.PurchaseProduct!.FirstOrDefault(c => c.Description == product.Description && c.ProductName == product.ProductName);
+
+            if (CountChecker != null)
+            {
+                user.PurchaseProduct!.FirstOrDefault(CountChecker).Count++;
+                await _userDb.SaveChangesAsync();
+
+                return _mapper.Map<ProductAddDto>(CountChecker);
+            }
+
+
             var buyProduct = _mapper.Map<PurchaseProduct>(product);
 
             buyProduct.UserId = user.Id;
+            buyProduct.Id = 0;
 
             await _userDb.purchaseProducts.AddAsync(buyProduct);
 
@@ -108,6 +122,14 @@ namespace API.Services.UsersServices
 
             if (purchaseProduct == null)
                 return null!;
+
+            if (purchaseProduct.Count > 1)
+            {
+                purchaseProduct.Count--;
+                await _userDb.SaveChangesAsync();
+
+                return _mapper.Map<ProductGetDto>(purchaseProduct);
+            }
 
             _userDb.purchaseProducts.Remove(purchaseProduct);
             await _userDb.SaveChangesAsync();
