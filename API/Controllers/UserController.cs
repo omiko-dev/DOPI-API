@@ -36,7 +36,6 @@ namespace API.Controllers
         [ProducesResponseType(typeof(ProductAddDto), 200)]
         public async Task<ActionResult> AddMyCart(ProductAddDto newCart)
         {
-            await Console.Out.WriteLineAsync(newCart.Description + "<--------------------------------------");
             var email = User.FindFirstValue(ClaimTypes.Email);
             var cart = await _userRepository.AddCart(email!, newCart);
 
@@ -58,11 +57,11 @@ namespace API.Controllers
 
         [HttpDelete("DeleteCart")]
         [ProducesResponseType(400)]
-        [ProducesResponseType(typeof(CartDto), 200)]
-        public async Task<ActionResult> DeleteCart([FromQuery] int cartId)
+        [ProducesResponseType(typeof(ProductAddDto), 200)]
+        public async Task<ActionResult> DeleteCart([FromQuery] int id)
         {
             var email = User.FindFirstValue(ClaimTypes.Email)!;
-            var deleteCart = await _userRepository.DeleteCart(email, cartId);
+            var deleteCart = await _userRepository.DeleteCart(email, id);
 
             if(deleteCart == null)
                 return BadRequest("Cart Not Found");

@@ -33,7 +33,7 @@ namespace API.Services.UsersServices
 
             if (CountChecker != null)
             {
-                user.Cart!.FirstOrDefault(CountChecker).Count++;
+                user.Cart!.FirstOrDefault(c => c.Id == CountChecker.Id)!.Count++;
                 await _userDb.SaveChangesAsync();
 
                 return _mapper.Map<ProductAddDto>(CountChecker);
@@ -63,7 +63,7 @@ namespace API.Services.UsersServices
 
             if (CountChecker != null)
             {
-                user.PurchaseProduct!.FirstOrDefault(CountChecker).Count++;
+                user.PurchaseProduct!.FirstOrDefault(c => c.Id == CountChecker.Id)!.Count++;
                 await _userDb.SaveChangesAsync();
 
                 return _mapper.Map<ProductAddDto>(CountChecker);
@@ -101,6 +101,7 @@ namespace API.Services.UsersServices
 
                 return _mapper.Map<ProductGetDto>(cart);
             }
+
 
             _userDb.Carts.Remove(cart);
             await _userDb.SaveChangesAsync();
