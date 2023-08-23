@@ -72,8 +72,8 @@ namespace API.Controllers
 
         [HttpPost("AddPurchaseProduct")]
         [ProducesResponseType(400)]
-        [ProducesResponseType(typeof(ProductAddDto), 200)]
-        public async Task<ActionResult> BuyProduct(ProductAddDto product)
+        [ProducesResponseType(typeof(bool), 200)]
+        public async Task<ActionResult> BuyProduct(List<ProductAddDto> product)
         {
             var email = User.FindFirstValue(ClaimTypes.Email)!;
             var addPurchaseProduct = await _userRepository.BuyProduct(email, product);

@@ -49,37 +49,41 @@ namespace API.Services.UsersServices
             return newCart;
         }
 
-        public async Task<ProductAddDto> BuyProduct(string email, ProductAddDto product)
+        public async Task<bool> BuyProduct(string email, List<ProductAddDto> product)
         {
 
             var user = await getUser(email);
 
             if (user == null)
-                return null!;
+                return false!;
 
-
-
-            var CountChecker = user.PurchaseProduct!.FirstOrDefault(c => c.Description == product.Description && c.ProductName == product.ProductName);
-
-            if (CountChecker != null)
+            foreach (var item in product)
             {
-                user.PurchaseProduct!.FirstOrDefault(c => c.Id == CountChecker.Id)!.Count++;
-                await _userDb.SaveChangesAsync();
 
-                return _mapper.Map<ProductAddDto>(CountChecker);
+                await ResetCart(email, item.Id);
+
+                var CountChecker = user.PurchaseProduct!.FirstOrDefault(c => c.Description == item.Description && c.ProductName == item.ProductName);
+
+                if (CountChecker != null)
+                {
+                    user.PurchaseProduct!.FirstOrDefault(c => c.Id == CountChecker.Id)!.Count++;
+                    await _userDb.SaveChangesAsync();
+
+                    continue;
+                }
+                var buyProduct = _mapper.Map<PurchaseProduct>(item);
+
+                buyProduct.UserId = user.Id;
+                buyProduct.Id = 0;
+                await _userDb.purchaseProducts.AddAsync(buyProduct);
+
+                await _userDb.SaveChangesAsync();
             }
 
 
-            var buyProduct = _mapper.Map<PurchaseProduct>(product);
 
-            buyProduct.UserId = user.Id;
-            buyProduct.Id = 0;
 
-            await _userDb.purchaseProducts.AddAsync(buyProduct);
-
-            await _userDb.SaveChangesAsync();
-
-            return product;
+            return true;
 
         }
 
@@ -190,6 +194,23 @@ namespace API.Services.UsersServices
 
 
         private async Task<User> getUser(string Email) => await _userDb.Users.FirstOrDefaultAsync(u => u.Email == Email);
+
+        private async Task<bool> ResetCart(string Email, int cartId)
+        {
+            var user = await getUser(Email);
+
+            var cart = await _userDb.Carts.FirstOrDefaultAsync(c => c.Id == cartId);
+
+            if (cart == null)
+                return false!;
+
+
+            _userDb.Carts.Remove(cart);
+            await _userDb.SaveChangesAsync();
+
+            return true;
+
+        }
 
     }
 }

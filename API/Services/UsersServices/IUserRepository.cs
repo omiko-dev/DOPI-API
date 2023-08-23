@@ -14,7 +14,7 @@ namespace API.Services.UsersServices
 
         public Task<UserDto> GetMe(string email);
 
-        public Task<ProductAddDto> BuyProduct(string email, ProductAddDto product);
+        public Task<bool> BuyProduct(string email, List<ProductAddDto> product);
 
         public Task<IEnumerable<ProductGetDto>> GetBuyProduct(string email);
 
