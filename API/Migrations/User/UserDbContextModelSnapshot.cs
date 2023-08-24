@@ -90,6 +90,9 @@ namespace API.Migrations.User
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("AddedTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("AllergensJson")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Allergens");

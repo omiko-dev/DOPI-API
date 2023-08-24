@@ -60,19 +60,20 @@ namespace API.Services.UsersServices
             foreach (var item in product)
             {
 
-                await ResetCart(email, item.Id);
+                var count = await ResetCart(email, item.Id);
 
                 var CountChecker = user.PurchaseProduct!.FirstOrDefault(c => c.Description == item.Description && c.ProductName == item.ProductName);
 
                 if (CountChecker != null)
                 {
-                    user.PurchaseProduct!.FirstOrDefault(c => c.Id == CountChecker.Id)!.Count++;
+                    user.PurchaseProduct!.FirstOrDefault(c => c.Id == CountChecker.Id)!.Count += count;
                     await _userDb.SaveChangesAsync();
 
                     continue;
                 }
                 var buyProduct = _mapper.Map<PurchaseProduct>(item);
 
+                buyProduct.Count = count;
                 buyProduct.UserId = user.Id;
                 buyProduct.Id = 0;
                 await _userDb.purchaseProducts.AddAsync(buyProduct);
@@ -169,8 +170,8 @@ namespace API.Services.UsersServices
 
             var user = await getUser(Email);
 
-            if (user!.Equals(null))
-                return null!;
+            if (user == null)
+                return null;
 
             return _mapper.Map<List<ProductGetDto>>(await _userDb.Carts.Where(c => c.Userid == user.Id).ToListAsync());
 
@@ -195,20 +196,20 @@ namespace API.Services.UsersServices
 
         private async Task<User> getUser(string Email) => await _userDb.Users.FirstOrDefaultAsync(u => u.Email == Email);
 
-        private async Task<bool> ResetCart(string Email, int cartId)
+        private async Task<int> ResetCart(string Email, int cartId)
         {
             var user = await getUser(Email);
 
             var cart = await _userDb.Carts.FirstOrDefaultAsync(c => c.Id == cartId);
 
             if (cart == null)
-                return false!;
+                return 0!;
 
 
             _userDb.Carts.Remove(cart);
             await _userDb.SaveChangesAsync();
 
-            return true;
+            return cart.Count;
 
         }
 
