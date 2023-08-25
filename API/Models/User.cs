@@ -15,7 +15,16 @@ namespace API.Models
 
         public string ProfileImg { get; set; } = string.Empty;
 
-        public string role { get; set; } = "user";
+        public string role
+        {
+            get { return role; }
+
+            set
+            {
+                if (role == "user" || role == "admin")
+                    role = value;
+            }
+        }
 
         [MaybeNull]
         public string refreshToken { get; set; }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations.User
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20230824180659_ChangedPurchase")]
-    partial class ChangedPurchase
+    [Migration("20230825192048_ChangeUserData")]
+    partial class ChangeUserData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

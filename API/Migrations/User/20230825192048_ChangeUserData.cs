@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.Migrations.User
 {
     /// <inheritdoc />
-    public partial class ChangedPurchase : Migration
+    public partial class ChangeUserData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
