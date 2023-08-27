@@ -1,5 +1,6 @@
 global using API.Models;
 using API.Data;
+using API.Services.AdminService;
 using API.Services.ProductsService;
 using API.Services.UsersServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,6 +20,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<UserDbContext>();
 builder.Services.AddDbContext<ProductDbContext>();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers().AddJsonOptions(x =>
             x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -68,6 +70,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 
 var app = builder.Build();
 

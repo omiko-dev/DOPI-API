@@ -45,10 +45,9 @@ namespace API.Controllers
 
 
             var user = _mapper.Map<User>(newUser);
+
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(newUser.PasswordHash);
-
-            await Console.Out.WriteLineAsync(user.PasswordHash);
-
+            user.role = "user";
 
             await _userDb.AddAsync(user);
             await _userDb.SaveChangesAsync();
